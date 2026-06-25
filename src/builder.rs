@@ -24,6 +24,7 @@ impl CoreMLModelBuilder {
     }
 
     /// Load a `CoreML` model from `HuggingFace` or local files
+    #[cfg(feature = "download")]
     pub fn load_from_hub(
         model_id: &str,
         model_filename: Option<&str>,

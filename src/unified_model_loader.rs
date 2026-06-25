@@ -4,6 +4,7 @@
 //! automatic HuggingFace downloading and config generation.
 
 use crate::config::model::ModelConfig;
+#[cfg(feature = "download")]
 use crate::download::unified::ensure_model_downloaded;
 use crate::{CacheManager, ConfigGenerator, QwenConfig, QwenModel};
 use anyhow::Result;
@@ -239,11 +240,13 @@ impl UnifiedModelLoader {
     }
 
     /// Ensure model is downloaded and return the path (useful for external tools)
+    #[cfg(feature = "download")]
     pub fn ensure_model_available(&self, model_id: &str) -> Result<std::path::PathBuf> {
         ensure_model_downloaded(model_id, false)
     }
 
     /// Generate or update config for a model without loading it
+    #[cfg(feature = "download")]
     pub fn generate_config(&self, model_id: &str) -> Result<ModelConfig> {
         let model_path = self.ensure_model_available(model_id)?;
 

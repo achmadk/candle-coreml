@@ -2,11 +2,13 @@ pub mod builder;
 pub mod cache;
 pub mod config;
 pub mod conversion;
+#[cfg(feature = "download")]
 pub mod download;
 pub mod model;
 pub mod pipeline;
 pub mod qwen;
 pub mod state;
+#[cfg(feature = "download")]
 pub mod unified_model_loader;
 pub mod utils;
 
@@ -14,6 +16,7 @@ pub mod utils;
 pub mod cache_manager {
     pub use crate::cache::*;
 }
+#[cfg(feature = "download")]
 pub mod clean_git_lfs_downloader {
     pub use crate::download::git_lfs::*;
 }
@@ -23,6 +26,7 @@ pub mod config_generator {
 pub mod model_config {
     pub use crate::config::model::*;
 }
+#[cfg(feature = "download")]
 pub mod model_downloader {
     pub use crate::download::unified::*;
 }
@@ -35,14 +39,17 @@ pub use config::{
 pub use model::CoreMLModel;
 pub use qwen::{ModelNamingConfig, QwenConfig, QwenModel};
 pub use state::CoreMLState;
+#[cfg(feature = "download")]
 pub use unified_model_loader::{CachedModelInfo, UnifiedModelLoader};
 
 // Main unified downloader API (recommended)
+#[cfg(feature = "download")]
 pub use download::{
     download_model, download_model_to, ensure_model_downloaded, get_cached_model_path,
 };
 
 // Advanced downloader API (for specific use cases)
+#[cfg(feature = "download")]
 pub use download::{download_hf_model_clean, verify_download_completeness, CleanDownloadConfig};
 
 // Shared utilities for transformer models
@@ -52,6 +59,7 @@ use std::path::PathBuf;
 
 /// Helper function to get a file locally first, then download from `HuggingFace` Hub if needed.
 /// Follows the same pattern as quantized-t5 example.
+#[cfg(feature = "download")]
 pub fn get_local_or_remote_file(
     filename: &str,
     api: &hf_hub::api::sync::ApiRepo,
